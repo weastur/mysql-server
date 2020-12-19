@@ -1546,13 +1546,15 @@ bool MYSQL_BIN_LOG::write_transaction(THD *thd, binlog_cache_data *cache_data,
 
   if (thd->slave_thread) {
     // log warning if the replication timestamps are invalid
-    if (original_commit_timestamp > immediate_commit_timestamp &&
+    if (original_commit_timestamp >
+            immediate_commit_timestamp + binlog_timestamp_warning_threshold &&
         !thd->rli_slave->get_c_rli()->gtid_timestamps_warning_logged) {
       LogErr(WARNING_LEVEL, ER_INVALID_REPLICATION_TIMESTAMPS);
       thd->rli_slave->get_c_rli()->gtid_timestamps_warning_logged = true;
     } else {
       if (thd->rli_slave->get_c_rli()->gtid_timestamps_warning_logged &&
-          original_commit_timestamp <= immediate_commit_timestamp) {
+          original_commit_timestamp <=
+              immediate_commit_timestamp + binlog_timestamp_warning_threshold) {
         LogErr(WARNING_LEVEL, ER_RPL_TIMESTAMPS_RETURNED_TO_NORMAL);
         thd->rli_slave->get_c_rli()->gtid_timestamps_warning_logged = false;
       }

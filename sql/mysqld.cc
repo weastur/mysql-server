@@ -1236,6 +1236,7 @@ bool clone_recovery_error = false;
 ulong binlog_row_event_max_size;
 ulong binlog_checksum_options;
 ulong binlog_row_metadata;
+ulong binlog_timestamp_warning_threshold;
 bool opt_master_verify_checksum = false;
 bool opt_slave_sql_verify_checksum = true;
 const char *binlog_format_names[] = {"MIXED", "STATEMENT", "ROW", NullS};
@@ -1806,7 +1807,7 @@ bool opt_enable_shared_memory;
 static char shutdown_event_name[40];
 static char restart_event_name[40];
 static NTService Service;  ///< Service object for WinNT
-#endif                     /* _WIN32 */
+#endif /* _WIN32 */
 
 static bool dynamic_plugins_are_initialized = false;
 
@@ -3436,7 +3437,7 @@ extern "C" void *signal_hand(void *arg MY_ATTRIBUTE((unused))) {
     }
     error = rc == -1;
     if (!error) sig = sig_info.si_signo;
-#endif             // __APPLE__
+#endif  // __APPLE__
     if (error)
       sql_print_error(
           "Fatal error in signal handling thread. sigwait/sigwaitinfo returned "
@@ -3460,7 +3461,7 @@ extern "C" void *signal_hand(void *arg MY_ATTRIBUTE((unused))) {
               " Restarting mysqld (Version %s)",
               server_version);
         }
-#endif             // __APPLE__
+#endif  // __APPLE__
         // fall through
       case SIGTERM:
       case SIGQUIT:
@@ -4644,7 +4645,7 @@ int init_common_variables() {
   }
 #endif /* HAVE_LINUX_LARGE_PAGES */
 #ifdef HAVE_SOLARIS_LARGE_PAGES
-#define LARGE_PAGESIZE (4 * 1024 * 1024)         /* 4MB */
+#define LARGE_PAGESIZE (4 * 1024 * 1024) /* 4MB */
 #define SUPER_LARGE_PAGESIZE (256 * 1024 * 1024) /* 256MB */
   if (opt_large_pages) {
     /*
@@ -4868,7 +4869,7 @@ int init_common_variables() {
 #if defined(ENABLED_DEBUG_SYNC)
   /* Initialize the debug sync facility. See debug_sync.cc. */
   if (debug_sync_init()) return 1; /* purecov: tested */
-#endif                             /* defined(ENABLED_DEBUG_SYNC) */
+#endif /* defined(ENABLED_DEBUG_SYNC) */
 
   if (opt_validate_config) return 0;
 

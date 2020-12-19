@@ -103,9 +103,9 @@ typedef Bitmap<((MAX_INDEXES + 7) / 8 * 8)> Key_map; /* Used for finding keys */
   4096 /**< Do Valgrind leak check for \
           each command. */
 
-#define SPECIAL_NO_NEW_FUNC 2     /* Skip new functions */
-#define SPECIAL_SKIP_SHOW_DB 4    /* Don't allow 'show db' */
-#define SPECIAL_NO_RESOLVE 64     /* Don't use gethostname */
+#define SPECIAL_NO_NEW_FUNC 2 /* Skip new functions */
+#define SPECIAL_SKIP_SHOW_DB 4 /* Don't allow 'show db' */
+#define SPECIAL_NO_RESOLVE 64 /* Don't use gethostname */
 #define SPECIAL_NO_HOST_CACHE 512 /* Don't cache hosts */
 #define SPECIAL_SHORT_LOG_FORMAT 1024
 
@@ -318,6 +318,7 @@ extern ulong slave_max_allowed_packet;
 extern ulong binlog_row_event_max_size;
 extern ulong binlog_checksum_options;
 extern ulong binlog_row_metadata;
+extern ulong binlog_timestamp_warning_threshold;
 extern const char *binlog_checksum_type_names[];
 extern bool opt_master_verify_checksum;
 extern bool opt_slave_sql_verify_checksum;
